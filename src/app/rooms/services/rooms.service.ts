@@ -3,46 +3,44 @@ import { RoomList } from '../rooms';
 import {environment} from '../../../environments/environment';
 import { APP_SERVICE_CONFIG } from '../../AppConfig/appconfig.service';
 import { AppConfig } from 'src/app/AppConfig/appconfig.interface';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { shareReplay } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class RoomsService { 
-  roomList: RoomList[] = [
-    {
-      roomType: 'Delux King Size',
-      roomNo: 1,
-      amenities: 'All Basic',
-      price: 2000,
-      photos: ' http://www.google.com',
-      checkInTime: new Date('22-Jun-2024'),
-      checkOutTime: new Date('23-Jun-2024'),
-    },
-    {
-      roomType: 'King Size',
-      roomNo: 2,
-      amenities: 'Basic',
-      price: 1500,
-      photos: ' http://www.google.com',
-      checkInTime: new Date('21-Jun-2024'),
-      checkOutTime: new Date('23-Jun-2024'),
-    },
-    {
-      roomType: 'Private',
-      roomNo: 3,
-      amenities: 'All',
-      price: 20000,
-      photos: ' http://www.google.com',
-      checkInTime: new Date('22-Jun-2024'),
-      checkOutTime: new Date('23-Jun-2024'),
-    },
-  ];
-
-  constructor(@Inject(APP_SERVICE_CONFIG) private config: AppConfig) {
+  roomList: RoomList[] = [];
+ header = new HttpHeaders({'token': 'abd122332nnsd'});
+  getRooms$ = this._http.get<RoomList[]>('/api/rooms ',{ headers: this.header}).pipe(shareReplay(1));
+  constructor(@Inject(APP_SERVICE_CONFIG) private config: AppConfig,
+private _http: HttpClient) {
     console.log("rooms service available");
-    console.log(environment.apiUrl)
+    console.log(environment.apiUrl);
+    console.log(this.config.apiEndPoint)
   }
 
-  getRooms(): RoomList[] {
-    return this.roomList;
+  getRooms() {
+    return this._http.get<RoomList[]>('/api/rooms');
   }
+  addRooms(room: RoomList) {
+    return this._http.post<RoomList[]>('/api/rooms', room);
+  }
+
+  editRooms(room: RoomList){
+    return this._http.put<RoomList[]>(`/api/rooms/${room.roomNumber}`, room);
+  }
+
+  deleteRooms(room: string){
+    return this._http.delete<RoomList[]>(`/api/rooms/${room}`);
+  }
+  getPhotos() {
+    // const request = new HttpRequest('GET', `${this.config.apiEndPoint}/api/rooms/photos`, {});
+    const request = new HttpRequest('GET', `https://jsonplaceholder.typicode.com/photos`, {
+      reportProgress: true
+    });
+
+    return this._http.request(request);
+
+  }
+
 }

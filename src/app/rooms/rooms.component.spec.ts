@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoomsComponent } from './rooms.component';
+import { RouteConfigToken } from '../search/routeConfig.service';
 
 describe('RoomsComponent', () => {
   let component: RoomsComponent;
@@ -8,7 +9,13 @@ describe('RoomsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoomsComponent ]
+      declarations: [ RoomsComponent ],
+      providers: [
+        {
+          provide: RouteConfigToken,
+          useValue: {title: 'Rooms'}
+        }
+      ]
     })
     .compileComponents();
 
@@ -19,5 +26,10 @@ describe('RoomsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should toggle',() =>{
+    component.hideRooms = false;
+    component.toggle();
+    expect(component.hideRooms).toBe(true);
   });
 });

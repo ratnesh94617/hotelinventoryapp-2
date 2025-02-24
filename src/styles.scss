@@ -3,6 +3,8 @@
 /* Importing Bootstrap SCSS file. */
 @import "./node_modules/bootstrap/scss/bootstrap";
 
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 .even {
@@ -14,3 +16,6 @@
   background-color: rgb(218, 17, 17);
   color: white;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

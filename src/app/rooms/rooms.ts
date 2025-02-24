@@ -6,10 +6,11 @@ export interface Room {
 
 export interface RoomList{
   roomType: string;
-  roomNo: number;
+  roomNumber: string;
   amenities: string;
   price: number;
   photos: string;
   checkInTime: Date;
   checkOutTime: Date;
+  rating?: number;
 }
